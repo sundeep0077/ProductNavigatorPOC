@@ -1,0 +1,26 @@
+<mat-card [ngClass]="'custom-card'">Store Selected</mat-card>
+
+<mat-horizontal-stepper linear #stepper>
+  <mat-step>
+      <ng-template matStepLabel>Enter Shopping List<mat-icon>add_shopping_cart</mat-icon></ng-template>
+      <input matInput placeholder="Last name, First name">
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+  </mat-step>
+  <mat-step [optional]=false>
+      <ng-template matStepLabel>Locate Items<mat-icon>my_location</mat-icon></ng-template>
+      <input matInput placeholder="Address">
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Find quick route<mat-icon>directions_run</mat-icon></ng-template>
+    You are now done.
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

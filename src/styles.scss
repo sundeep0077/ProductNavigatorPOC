@@ -1,1 +1,64 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+section {
+    margin: 0 auto;
+    padding: 2em;
+}
+
+.icon {
+    font-size: 36px;
+}
+
+.title{
+    color:#fcba30; 
+    font-size: 22px; 
+    font-weight: bold;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin-top:10px;
+}
+
+.banner {
+height: 50px;
+}
+
+.companyLogo{
+    height: 150px;
+    margin-top:-25px;
+    margin-left: -190px
+}
+
+.center-block {
+    margin-left:auto;
+    margin-right:auto;
+    display:block;
+ }
+ 
+ // In case you're dealing with a inline element apply this to the parent 
+ .text-center {
+    text-align:center
+ }
+
+ .userDetails {
+    color: white; 
+    font-size: 15px; 
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin-right: -180px
+ }
+
+ .mat-icon .notranslate .material-icons .mat-icon-no-color #userIconPadding {
+    margin-left: -93px !important;
+    margin-top:10px !important;
+ }
+
+ .custom-card {
+    background-color:#d5dfe6;
+  }
+
+  .marginRightNeg400{
+      margin-right: -400px;
+  }
+  .marginRight400{
+    margin-right: 400px;
+}
