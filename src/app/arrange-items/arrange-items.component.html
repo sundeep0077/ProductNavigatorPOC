@@ -1,26 +1,52 @@
-<mat-card [ngClass]="'custom-card'">Store Selected</mat-card>
+<mat-card [ngClass]="'custom-card'">
+  <mat-icon>local_grocery_store</mat-icon> 
+  &#160; Your Store:  &#160; 
+  <mat-icon matTooltip="Edit Store Location"  matTooltipClass="tooltip-spark-color">edit_location</mat-icon> &#160;
+</mat-card>
 
-<mat-horizontal-stepper linear #stepper>
-  <mat-step>
-      <ng-template matStepLabel>Enter Shopping List<mat-icon>add_shopping_cart</mat-icon></ng-template>
-      <input matInput placeholder="Last name, First name">
+
+<mat-horizontal-stepper #stepper>
+  <mat-step state="format">
+      <ng-template matStepLabel>Enter Shopping List &#160;<mat-icon>format_list_numbered</mat-icon></ng-template>
       <div>
-        <button mat-button matStepperNext>Next</button>
+         <button mat-mini-fab color="warn"><mat-icon matTooltip="Add Items"  matTooltipClass="tooltip-spark-color">add_shopping_cart</mat-icon></button>
+      </div>
+      <br>
+      <mat-divider></mat-divider>
+      <br>
+      <div>
+        <button mat-raised-button matStepperNext color="primary">Next</button>
       </div>
   </mat-step>
-  <mat-step [optional]=false>
-      <ng-template matStepLabel>Locate Items<mat-icon>my_location</mat-icon></ng-template>
+  <mat-step state="locate">
+      <ng-template matStepLabel>Locate Items &#160;<mat-icon>my_location</mat-icon></ng-template>
       <input matInput placeholder="Address">
+      <br>
+      <mat-divider></mat-divider>
+      <br>
       <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-raised-button matStepperPrevious color="primary">Back</button>
+        &#160;&#160;&#160;
+        <button mat-raised-button matStepperNext color="primary">Next</button>
       </div>
   </mat-step>
-  <mat-step>
-    <ng-template matStepLabel>Find quick route<mat-icon>directions_run</mat-icon></ng-template>
+  <mat-step state="directions">
+    <ng-template matStepLabel>Find shortest route &#160;<mat-icon>directions_run</mat-icon></ng-template>
     You are now done.
+    <br>
+    <mat-divider></mat-divider>
+    <br>
     <div>
-      <button mat-button matStepperPrevious>Back</button>
+      <button mat-raised-button matStepperPrevious color="primary">Back</button>
     </div>
   </mat-step>
+  <ng-template matStepperIcon="format">
+      <mat-icon>format_list_numbered</mat-icon>
+  </ng-template>
+  <ng-template matStepperIcon="locate">
+      <mat-icon>my_location</mat-icon>
+  </ng-template>
+  <ng-template matStepperIcon="directions">
+      <mat-icon>directions_run</mat-icon>
+  </ng-template>
 </mat-horizontal-stepper>
