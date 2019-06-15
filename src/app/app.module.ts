@@ -4,25 +4,21 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ArrangeItemsComponent } from './arrange-items/arrange-items.component';
-import { ArrangeItemsSlowResponsesComponent } from './arrange-items-slow-responses/arrange-items-slow-responses.component';
 import { NavComponent } from './nav/nav.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule, MatCardModule, MatButtonModule, MatTooltipModule, MatDividerModule } from '@angular/material';
-import { MatInputModule } from '@angular/material';
+import { MatFormFieldModule, MatCardModule, MatButtonModule, MatTooltipModule, MatDividerModule,
+  MatRippleModule, MatListModule, MatAutocompleteModule, MatInputModule, MatSnackBarModule } from '@angular/material';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { HttpClientModule } from '@angular/common/http';
+import { CustomSnackbarComponent } from './custom-snackbar/custom-snackbar.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ArrangeItemsComponent,
-    ArrangeItemsSlowResponsesComponent,
-    NavComponent
-  ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
@@ -34,7 +30,20 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
     MatCardModule,
     MatButtonModule,
     MatTooltipModule,
-    MatDividerModule
+    MatDividerModule,
+    MatRippleModule,
+    MatListModule,
+    MatAutocompleteModule,
+    MatSnackBarModule
+  ],
+  entryComponents: [
+    CustomSnackbarComponent
+  ],
+  declarations: [
+    AppComponent,
+    CustomSnackbarComponent,
+    ArrangeItemsComponent,
+    NavComponent
   ],
   providers: [{
     provide: STEPPER_GLOBAL_OPTIONS,

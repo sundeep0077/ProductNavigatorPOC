@@ -7,27 +7,61 @@
 
 <mat-horizontal-stepper #stepper>
   <mat-step state="format">
-      <ng-template matStepLabel>Enter Shopping List &#160;<mat-icon>format_list_numbered</mat-icon></ng-template>
+      <ng-template matStepLabel>Create Shopping List &#160;<mat-icon>format_list_numbered</mat-icon></ng-template>
+  
       <div>
-         <button mat-mini-fab color="warn"><mat-icon matTooltip="Add Items"  matTooltipClass="tooltip-spark-color">add_shopping_cart</mat-icon></button>
+          <mat-list>
+            <mat-card [ngClass]="'itemsSelectedCard'">
+              <div class="row">
+                  <mat-list-item *ngFor="let category of categories">
+                      <div class="col-md-10">
+                         <strong>{{category.categoryName}} </strong> 
+                      </div>
+                      <div class="col-md-3">
+                           <button mat-mini-fab color="warn"><mat-icon matTooltip="Remove"  matTooltipClass="tooltip-spark-color" >remove_shopping_cart</mat-icon></button>
+                       </div>
+                    </mat-list-item>
+              </div>
+            </mat-card>
+            </mat-list>
+            <br>
+            <form>
+                <div class="row">
+                    <div class="col-md-2">
+                        <mat-form-field>
+                            <input type="text" placeholder="Enter Category" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete">
+                              <mat-option *ngFor="let option of filteredOptions | async" [value]="option.categoryName">
+                                {{option.categoryName}}
+                              </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-10">
+                        <div>
+                            <button mat-mini-fab color="primary"><mat-icon matTooltip="Add"  matTooltipClass="tooltip-spark-color" >add_shopping_cart</mat-icon></button>
+                        </div>
+                    </div>
+                </div>
+              </form>
+             <br>
       </div>
-      <br>
       <mat-divider></mat-divider>
       <br>
       <div>
-        <button mat-raised-button matStepperNext color="primary">Next</button>
+        <button mat-raised-button matStepperNext color="primary">Choose Items</button>
       </div>
   </mat-step>
   <mat-step state="locate">
-      <ng-template matStepLabel>Locate Items &#160;<mat-icon>my_location</mat-icon></ng-template>
+      <ng-template matStepLabel>Choose Items &#160;<mat-icon>my_location</mat-icon></ng-template>
       <input matInput placeholder="Address">
       <br>
       <mat-divider></mat-divider>
       <br>
       <div>
-        <button mat-raised-button matStepperPrevious color="primary">Back</button>
+        <button mat-raised-button matStepperPrevious color="primary">Create Shopping List</button>
         &#160;&#160;&#160;
-        <button mat-raised-button matStepperNext color="primary">Next</button>
+        <button mat-raised-button matStepperNext color="primary">I'm in a hurry!</button>
       </div>
   </mat-step>
   <mat-step state="directions">
@@ -37,7 +71,7 @@
     <mat-divider></mat-divider>
     <br>
     <div>
-      <button mat-raised-button matStepperPrevious color="primary">Back</button>
+      <button mat-raised-button matStepperPrevious color="primary">Choose Items</button>
     </div>
   </mat-step>
   <ng-template matStepperIcon="format">
