@@ -58,6 +58,7 @@ height: 50px;
   }
   .itemsSelectedCard {
     background-color:#f7f9fb;
+    margin-right:1300px !important
   }
   
 
@@ -78,3 +79,36 @@ height: 50px;
   .snackBarClass {
     color: #fcba30; 
   }
+
+  .example-form {
+    min-width: 150px;
+    max-width: 1500px;
+    width: 100%;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+
+  .table-container {
+    height: 400px;
+    overflow: auto;
+  }
+  
+  table {
+    width: 100%;
+  }
+
+  .expansionPanelCustom {
+    background-color:#f7f9fb;
+  }
+
+  .example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}

@@ -10,7 +10,9 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule, MatCardModule, MatButtonModule, MatTooltipModule, MatDividerModule,
-  MatRippleModule, MatListModule, MatAutocompleteModule, MatInputModule, MatSnackBarModule } from '@angular/material';
+  MatRippleModule, MatListModule, MatAutocompleteModule, MatInputModule, MatSnackBarModule, MatTableModule,
+   MatCheckboxModule } from '@angular/material';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { HttpClientModule } from '@angular/common/http';
 import { CustomSnackbarComponent } from './custom-snackbar/custom-snackbar.component';
@@ -34,7 +36,10 @@ import { CustomSnackbarComponent } from './custom-snackbar/custom-snackbar.compo
     MatRippleModule,
     MatListModule,
     MatAutocompleteModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTableModule,
+    MatCheckboxModule,
+    MatExpansionModule
   ],
   entryComponents: [
     CustomSnackbarComponent

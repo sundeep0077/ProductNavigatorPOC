@@ -8,38 +8,51 @@
 <mat-horizontal-stepper #stepper>
   <mat-step state="format">
       <ng-template matStepLabel>Create Shopping List &#160;<mat-icon>format_list_numbered</mat-icon></ng-template>
-  
       <div>
           <mat-list>
-            <mat-card [ngClass]="'itemsSelectedCard'">
+            <mat-card [ngClass]="'itemsSelectedCard'" *ngIf="shoppingList.length>0">
+                <div class="row">
+                        <div class="col-md-2">
+                        </div>
+                        <div class="col-md-10">
+                           <strong> Shopping List </strong> 
+                        </div>
+                </div>
+                <br>
+                <mat-divider></mat-divider>
+                <br>
               <div class="row">
-                  <mat-list-item *ngFor="let category of categories">
-                      <div class="col-md-10">
-                         <strong>{{category.categoryName}} </strong> 
+                  <mat-list-item *ngFor="let category of shoppingList">
+                      <div class="col-md-2">
+                          <button mat-icon-button color="warn" (click)="removeFromShoppingList(category)">
+                              <mat-icon matTooltip="Remove"  matTooltipClass="tooltip-spark-color" >remove_shopping_cart</mat-icon>
+                            </button>
                       </div>
-                      <div class="col-md-3">
-                           <button mat-mini-fab color="warn"><mat-icon matTooltip="Remove"  matTooltipClass="tooltip-spark-color" >remove_shopping_cart</mat-icon></button>
-                       </div>
+                      <div class="col-md-10">
+                         {{category.categoryName}}
+                      </div>
                     </mat-list-item>
               </div>
             </mat-card>
             </mat-list>
             <br>
-            <form>
+            <form class="example-form">
                 <div class="row">
-                    <div class="col-md-2">
-                        <mat-form-field>
-                            <input type="text" placeholder="Enter Category" matInput [formControl]="myControl" [matAutocomplete]="auto">
-                            <mat-autocomplete #auto="matAutocomplete">
+                    <div class="col-md-4">
+                        <mat-form-field class="full-width">
+                            <input type="text" placeholder="Enter Category"  [(ngModel)]="selectedItem" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete" panelWidth="500px">
                               <mat-option *ngFor="let option of filteredOptions | async" [value]="option.categoryName">
                                 {{option.categoryName}}
                               </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-8">
                         <div>
-                            <button mat-mini-fab color="primary"><mat-icon matTooltip="Add"  matTooltipClass="tooltip-spark-color" >add_shopping_cart</mat-icon></button>
+                            <button mat-icon-button color="primary" (click) = "addToShoppingList()">
+                                <mat-icon matTooltip="Add"  matTooltipClass="tooltip-spark-color" >add_shopping_cart</mat-icon>
+                              </button>
                         </div>
                     </div>
                 </div>
@@ -49,21 +62,81 @@
       <mat-divider></mat-divider>
       <br>
       <div>
-        <button mat-raised-button matStepperNext color="primary">Choose Items</button>
+        <button mat-raised-button matStepperNext color="primary" (click)="getProductTraits()">Next (Choose & Locate Items)</button>
       </div>
   </mat-step>
+
   <mat-step state="locate">
-      <ng-template matStepLabel>Choose Items &#160;<mat-icon>my_location</mat-icon></ng-template>
-      <input matInput placeholder="Address">
+      <ng-template matStepLabel>Choose & Locate &#160;<mat-icon>my_location</mat-icon></ng-template>
+      <div class="row">
+          <div class="col-md-12">
+              <mat-accordion class="example-headers-align"> 
+                <mat-card>
+                  <mat-expansion-panel *ngFor="let trait of productTraits">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                       <strong>{{trait.categoryName}}</strong> 
+                      </mat-panel-title>
+                      <mat-panel-description>
+                          Department: {{trait.productDetailsTraits[0].departmentName}}
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                        <mat-list>
+                                <div class="row">
+                                          <div class="col-md-1">
+                                          </div>
+                                          <div class="col-md-4">
+                                              <strong> Product </strong> 
+                                          </div>
+                                          <div class="col-md-3">
+                                              <strong> Direction </strong> 
+                                          </div>
+                                          <div class="col-md-2">
+                                              <strong> Aisle </strong> 
+                                          </div>
+                                          <div class="col-md-2">
+                                              <strong> Row </strong> 
+                                          </div>
+                                  </div>
+                                  <br>
+                                  <mat-divider></mat-divider>
+                                  <br>
+                                <div class="row">
+                                    <mat-list-item *ngFor="let product of trait.productDetailsTraits">
+                                        <div class="col-md-1">
+                                          <mat-checkbox (change)="productSelection($event,product)" ></mat-checkbox>
+                                          </div>
+                                          <div class="col-md-4">
+                                              {{product.productName}} 
+                                          </div>
+                                          <div class="col-md-3">
+                                              {{product.direction}} 
+                                          </div>
+                                          <div class="col-md-2">
+                                              {{product.aisle}} 
+                                          </div>
+                                          <div class="col-md-2">
+                                              {{product.row}} 
+                                          </div>
+                                          <mat-divider></mat-divider>
+                                    </mat-list-item>
+                               </div>
+                            </mat-list>
+                  </mat-expansion-panel>
+                </mat-card>
+              </mat-accordion>
+          </div>
+      </div>
       <br>
       <mat-divider></mat-divider>
       <br>
       <div>
-        <button mat-raised-button matStepperPrevious color="primary">Create Shopping List</button>
+        <button mat-raised-button matStepperPrevious color="primary">Back (Create Shopping List)</button>
         &#160;&#160;&#160;
-        <button mat-raised-button matStepperNext color="primary">I'm in a hurry!</button>
+        <button mat-raised-button matStepperNext color="primary">Next (I'm in a hurry!)</button>
       </div>
   </mat-step>
+
   <mat-step state="directions">
     <ng-template matStepLabel>Find shortest route &#160;<mat-icon>directions_run</mat-icon></ng-template>
     You are now done.
@@ -71,14 +144,16 @@
     <mat-divider></mat-divider>
     <br>
     <div>
-      <button mat-raised-button matStepperPrevious color="primary">Choose Items</button>
+      <button mat-raised-button matStepperPrevious color="primary" (click)="getProductTraits()">Back (Choose & Locate Items)</button>
     </div>
   </mat-step>
+
+
   <ng-template matStepperIcon="format">
       <mat-icon>format_list_numbered</mat-icon>
   </ng-template>
   <ng-template matStepperIcon="locate">
-      <mat-icon>my_location</mat-icon>
+      <mat-icon>thumb_up_alt</mat-icon>
   </ng-template>
   <ng-template matStepperIcon="directions">
       <mat-icon>directions_run</mat-icon>
