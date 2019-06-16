@@ -104,7 +104,7 @@
                                 <div class="row">
                                     <mat-list-item *ngFor="let product of trait.productDetailsTraits">
                                         <div class="col-md-1">
-                                          <mat-checkbox (change)="productSelection($event,product)" ></mat-checkbox>
+                                          <mat-checkbox (change)="productSelection($event,product)" [(ngModel)]="product.selected"></mat-checkbox>
                                           </div>
                                           <div class="col-md-4">
                                               {{product.productName}} 

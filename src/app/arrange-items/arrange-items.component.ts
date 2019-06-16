@@ -73,6 +73,18 @@ export class ArrangeItemsComponent implements OnInit {
     const categoryIds = this.shoppingList.map(x => x.categoryId);
     this.getProductTraitsService.getProductTraits(categoryIds).subscribe((data) => {
       this.productTraits = data;
+      const newProductIdList: Array<number> = new Array<number>();
+      if (this.finalProductIdList.length > 0) {
+        this.productTraits.forEach(x => {
+          x.productDetailsTraits.forEach(y => {
+            if (this.finalProductIdList.includes(y.productId)){
+              y.selected = true;
+              newProductIdList.push(y.productId);
+            }
+          });
+        });
+        this.finalProductIdList = newProductIdList;
+      }
     },
     () => {  this.snackBarMessage('Error Encountered Getting Product Details'); });
     }
@@ -90,7 +102,6 @@ export class ArrangeItemsComponent implements OnInit {
    } else {
      this.finalProductIdList = this.finalProductIdList.filter(x => x !== product.productId);
    }
-   console.log(this.finalProductIdList);
  }
 
 }

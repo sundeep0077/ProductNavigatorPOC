@@ -1,11 +1,12 @@
 export class ProductDetailsTraits {
     productId: number;
-    DepartmentName: string;
-    ProductName: string;
-    Count: number;
-    Direction: string;
-    Aisle: string;
-    Row: number;
-    Buy: boolean;
-    ReasonNotToBuy: number;
+    departmentName: string;
+    productName: string;
+    count: number;
+    direction: string;
+    aisle: string;
+    row: number;
+    buy: boolean;
+    reasonNotToBuy: number;
+    selected: boolean;
 }
