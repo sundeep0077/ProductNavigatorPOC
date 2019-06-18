@@ -133,13 +133,75 @@
       <div>
         <button mat-raised-button matStepperPrevious color="primary">Back (Create Shopping List)</button>
         &#160;&#160;&#160;
-        <button mat-raised-button matStepperNext color="primary">Next (I'm in a hurry!)</button>
+        <button mat-raised-button matStepperNext color="primary" (click)="getOptimizedRoute()">Next (I'm in a hurry!)</button>
       </div>
   </mat-step>
 
   <mat-step state="directions">
     <ng-template matStepLabel>Find shortest route &#160;<mat-icon>directions_run</mat-icon></ng-template>
-    You are now done.
+    <div class="row paddingLeft30">
+       <p> Original Route Time: <strong>&nbsp;5 mins&nbsp;</strong> approx. <br/>
+        Best Route Time: <strong>&nbsp;10 mins&nbsp;</strong> approx.
+        </p>
+    </div>
+    <br>
+    <mat-divider></mat-divider>
+    <br>
+      <div class="row paddingLeft30">
+          <mat-icon matTooltip="Origin"  matTooltipClass="tooltip-spark-color">directions_walk</mat-icon>
+          <mat-icon matTooltip="Origin"  matTooltipClass="tooltip-spark-color">trip_origin</mat-icon>
+      </div>
+      <div class="row paddingLeft30">
+          <mat-icon matTooltip="Next"  matTooltipClass="tooltip-spark-color">arrow_downward</mat-icon>
+      </div>
+        <mat-list>
+            <mat-list-item [ngClass]="'paddingLeft30'">
+                <div class="row full-width">
+                    <div class="col-md-3">
+                        <strong>Product</strong>
+                    </div>
+                    <div class="col-md-2">
+                        <strong>Direction</strong>
+                    </div>
+                    <div class="col-md-2">
+                        <strong>Aisle</strong>
+                    </div>
+                    <div class="col-md-2">
+                        <strong>Row</strong>
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Buy</strong>
+                    </div>
+                  </div>
+            </mat-list-item>
+      </mat-list>
+      <mat-list *ngFor="let trait of productTraits;let i = index">
+            <mat-list-item [ngClass]="'paddingLeft30'">
+                <div class="row full-width">
+                    <div class="col-md-3">
+                        {{trait.categoryName}}
+                    </div>
+                    <div class="col-md-2">
+                        Direction
+                    </div>
+                    <div class="col-md-2">
+                        Aisle
+                    </div>
+                    <div class="col-md-2">
+                        Row
+                    </div>
+                    <div class="col-md-3">
+                        Buy
+                    </div>
+                  </div>
+             </mat-list-item>
+            <mat-icon *ngIf="(i+1) == productTraits.length" [ngClass]="'paddingLeft15'" matTooltip="Next"  matTooltipClass="tooltip-spark-color">arrow_downward</mat-icon>
+            <mat-icon *ngIf="(i+1) < productTraits.length" [ngClass]="'paddingLeft15'" matTooltip="Next"  matTooltipClass="tooltip-spark-color">arrow_drop_down</mat-icon>
+      </mat-list>
+      <div class="row paddingLeft30">
+          <mat-icon matTooltip="Origin"  matTooltipClass="tooltip-spark-color">directions_walk</mat-icon>
+          <mat-icon matTooltip="Checkout"  matTooltipClass="tooltip-spark-color">local_grocery_store</mat-icon>
+      </div>
     <br>
     <mat-divider></mat-divider>
     <br>

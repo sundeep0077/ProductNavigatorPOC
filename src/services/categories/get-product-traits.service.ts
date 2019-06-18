@@ -13,6 +13,6 @@ export class GetProductTraitsService {
   constructor(private http: HttpClient) { }
 
   getProductTraits(categoryIds: Array<number>): Observable<ProductHeaderTraits[]> {
-    return this.http.post<ProductHeaderTraits[]>(API_URL.BaseURL + API_URL.GetProductTraits, categoryIds);
+    return this.http.post<ProductHeaderTraits[]>(API_URL.BaseURL + API_URL.FetchProductTraits, categoryIds);
   }
 }

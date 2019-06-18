@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Category } from '../../models/category';
 import {LocatorService} from '../../services/categories/get-categories.service';
 import {GetProductTraitsService} from '../../services/categories/get-product-traits.service';
+import {FetchOptimizedRouteService} from '../../services/categories/fetch-optimized-route.service';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
@@ -10,6 +11,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import { CustomSnackbarComponent } from '../custom-snackbar/custom-snackbar.component';
 import { ProductHeaderTraits } from 'src/models/ProductHeaderTraits';
 import { ProductDetailsTraits } from 'src/models/ProductDetailsTraits';
+import { OptimizedRouteProductDTO } from 'src/models/OptimizedRouteProductDTO';
 
 
 @Component({
@@ -25,6 +27,7 @@ export class ArrangeItemsComponent implements OnInit {
   categories: Array<Category> = new Array<Category>();
   shoppingList: Array<Category> = new Array<Category>();
   productTraits: Array<ProductHeaderTraits> = new Array<ProductHeaderTraits>();
+  optimizedRouteProducts: Array<OptimizedRouteProductDTO> = new Array<OptimizedRouteProductDTO>();
   finalProductIdList: Array<number> = new Array<number>();
   durationInSeconds: 2;
   displayedColumns = ['departmentName'];
@@ -32,7 +35,8 @@ export class ArrangeItemsComponent implements OnInit {
 
   constructor(private snackBar: MatSnackBar,
               private locatorService: LocatorService,
-              private getProductTraitsService: GetProductTraitsService) { }
+              private getProductTraitsService: GetProductTraitsService,
+              private fetchOptimizedRouteService: FetchOptimizedRouteService) { }
 
   ngOnInit() {
 
@@ -77,7 +81,7 @@ export class ArrangeItemsComponent implements OnInit {
       if (this.finalProductIdList.length > 0) {
         this.productTraits.forEach(x => {
           x.productDetailsTraits.forEach(y => {
-            if (this.finalProductIdList.includes(y.productId)){
+            if (this.finalProductIdList.includes(y.productId)) {
               y.selected = true;
               newProductIdList.push(y.productId);
             }
@@ -88,6 +92,13 @@ export class ArrangeItemsComponent implements OnInit {
     },
     () => {  this.snackBarMessage('Error Encountered Getting Product Details'); });
     }
+
+   private getOptimizedRoute() {
+    this.fetchOptimizedRouteService.fetchOptimizedPath(this.finalProductIdList).subscribe((data) => {
+      this.optimizedRouteProducts = data;  },
+    () => {  this.snackBarMessage('Error Encountered Fetching Optimized Route'); });
+    }
+
 
  private snackBarMessage(message: string) {
   this.snackBar.openFromComponent(CustomSnackbarComponent, {
