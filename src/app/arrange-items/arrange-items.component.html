@@ -1,7 +1,23 @@
 <mat-card [ngClass]="'custom-card'">
-  <mat-icon>local_grocery_store</mat-icon> 
-  &#160; Your Store:  &#160; 
-  <mat-icon matTooltip="Edit Store Location"  matTooltipClass="tooltip-spark-color">edit_location</mat-icon> &#160;
+    <div class="row">
+        <div class="col-md-1">
+                <mat-icon>local_grocery_store</mat-icon> 
+                &#160; Your Store:  &#160; 
+        </div>
+        <div class="col-md-11">
+            <p>
+                    <mat-form-field class="half-width" *ngIf="showLocationText">
+                            <input type="text" placeholder="Enter City" #box (keyup.enter)="onCityEnter(box.value)"  [(ngModel)]="enteredLocation" matInput [formControl]="myControlLocation" [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete" panelWidth="1000px">
+                              <mat-option *ngFor="let loc of walmartLocations" [value]="loc.location">
+                                {{loc.establishmentName}} | {{loc.location}}
+                              </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                <mat-icon matTooltip="Edit Store Location"  matTooltipClass="tooltip-spark-color" (click)="editLocationClick()">edit_location</mat-icon> &#160;
+            </p>
+        </div>
+    </div>
 </mat-card>
 
 
@@ -12,26 +28,24 @@
           <mat-list>
             <mat-card [ngClass]="'itemsSelectedCard'" *ngIf="shoppingList.length>0">
                 <div class="row">
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-10">
+                        <div class="col-md-12">
+                            <mat-icon>assignment_turned_in</mat-icon>
+                            &nbsp;
                            <strong> Shopping List </strong> 
                         </div>
                 </div>
                 <br>
                 <mat-divider></mat-divider>
                 <br>
-              <div class="row">
-                  <mat-list-item *ngFor="let category of shoppingList">
-                      <div class="col-md-2">
-                          <button mat-icon-button color="warn" (click)="removeFromShoppingList(category)">
-                              <mat-icon matTooltip="Remove"  matTooltipClass="tooltip-spark-color" >remove_shopping_cart</mat-icon>
+              <div cdkDropList class="shopping-list" (cdkDropListDropped)="drop($event)">
+                    <div class="shopping-box" *ngFor="let category of shoppingList" cdkDrag>
+                        <p class="alignLeft">
+                            <button mat-icon-button color="warn" (click)="removeFromShoppingList(category)">
+                                    <mat-icon matTooltip="Remove"  matTooltipClass="tooltip-spark-color" >remove_shopping_cart</mat-icon>
                             </button>
-                      </div>
-                      <div class="col-md-10">
-                         {{category.categoryName}}
-                      </div>
-                    </mat-list-item>
+                            <strong>{{category.categoryName}}</strong>
+                        </p>
+                    </div>
               </div>
             </mat-card>
             </mat-list>
@@ -50,7 +64,7 @@
                     </div>
                     <div class="col-md-8">
                         <div>
-                            <button mat-icon-button color="primary" (click) = "addToShoppingList()">
+                            <button  mat-raised-button mat-icon-button color="primary" (click) = "addToShoppingList()">
                                 <mat-icon matTooltip="Add"  matTooltipClass="tooltip-spark-color" >add_shopping_cart</mat-icon>
                               </button>
                         </div>
@@ -62,7 +76,7 @@
       <mat-divider></mat-divider>
       <br>
       <div>
-        <button mat-raised-button matStepperNext color="primary" (click)="getProductTraits()">Next (Choose & Locate Items)</button>
+        <button mat-raised-button matStepperNext color="primary" [disabled]="shoppingList.length==0" (click)="getProductTraits()">Next (Choose & Locate Items)</button>
       </div>
   </mat-step>
 
@@ -104,7 +118,7 @@
                                 <div class="row">
                                     <mat-list-item *ngFor="let product of trait.productDetailsTraits">
                                         <div class="col-md-1">
-                                          <mat-checkbox (change)="productSelection($event,product)" [(ngModel)]="product.selected"></mat-checkbox>
+                                          <mat-checkbox (change)="productSelection($event,product)" [(ngModel)]="product.selected" color="primary"></mat-checkbox>
                                           </div>
                                           <div class="col-md-4">
                                               {{product.productName}} 
@@ -133,17 +147,44 @@
       <div>
         <button mat-raised-button matStepperPrevious color="primary">Back (Create Shopping List)</button>
         &#160;&#160;&#160;
-        <button mat-raised-button matStepperNext color="primary" (click)="getOptimizedRoute()">Next (I'm in a hurry!)</button>
+        <button mat-raised-button matStepperNext color="primary" (click)="getOptimizedRoute()" [disabled]="finalProductIdList.length==0">Next (I'm in a hurry!)</button>
       </div>
   </mat-step>
 
   <mat-step state="directions">
     <ng-template matStepLabel>Find shortest route &#160;<mat-icon>directions_run</mat-icon></ng-template>
     <div class="row paddingLeft30">
-       <p> Original Route Time: <strong>&nbsp;5 mins&nbsp;</strong> approx. <br/>
-        Best Route Time: <strong>&nbsp;10 mins&nbsp;</strong> approx.
-        </p>
+        <div class="col-md-4">
+               <strong> Original Route Time: <strong class="colorRed">&nbsp;{{routeSavings?.originalRouteTime}}&nbsp;</strong> mins approx.</strong>
+        </div>
+        <div class="col-md-4">
+                <strong>  Optimized Route Time: <strong class="colorDarkslateblue">&nbsp;{{routeSavings?.optimizedRouteTime}}&nbsp;</strong> mins approx.</strong>
+        </div>
+        <div class="col-md-4">
+                <strong>  Time Saved: <strong class="colorForestgreen">&nbsp;{{routeSavings?.timeSaved}}&nbsp;</strong> mins approx.</strong>
+        </div>
     </div>
+    <br>
+    <div class="row paddingLeft30">
+            <div class="col-md-12">
+                    <mat-accordion class="example-headers-align"> 
+                            <mat-card>
+                              <mat-expansion-panel [ngClass]="'mapColor'">
+                                <mat-expansion-panel-header>
+                                  <mat-panel-title>
+                                        <mat-icon>zoom_out_map</mat-icon>
+                                  </mat-panel-title>
+                                  <mat-panel-description>
+                                      Store Map
+                                      <mat-icon>zoom_out_map</mat-icon>
+                                   </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <img src="../../assets/images/RouteMap.jpg" >
+                              </mat-expansion-panel>
+                            </mat-card>
+                          </mat-accordion>
+            </div>
+        </div>
     <br>
     <mat-divider></mat-divider>
     <br>
@@ -157,46 +198,68 @@
         <mat-list>
             <mat-list-item [ngClass]="'paddingLeft30'">
                 <div class="row full-width">
+                    <div class="col-md-2">
+                        <strong>Department</strong>
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Category</strong>
+                    </div>
                     <div class="col-md-3">
                         <strong>Product</strong>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <strong>Direction</strong>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <strong>Aisle</strong>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <strong>Row</strong>
                     </div>
-                    <div class="col-md-3">
-                        <strong>Buy</strong>
+                    <div class="col-md-1">
+                        <strong>Everything Ok ?</strong>
                     </div>
                   </div>
             </mat-list-item>
       </mat-list>
-      <mat-list *ngFor="let trait of productTraits;let i = index">
+      <mat-list *ngFor="let product of optimizedRouteProducts; let i=index">
             <mat-list-item [ngClass]="'paddingLeft30'">
                 <div class="row full-width">
-                    <div class="col-md-3">
-                        {{trait.categoryName}}
-                    </div>
                     <div class="col-md-2">
-                        Direction
-                    </div>
-                    <div class="col-md-2">
-                        Aisle
-                    </div>
-                    <div class="col-md-2">
-                        Row
+                        {{product.departmentName}}
                     </div>
                     <div class="col-md-3">
-                        Buy
+                        {{product.categoryName}}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>
+                            {{product.productName}}
+                            <mat-icon *ngIf="product.buy===false" [ngClass]="'colorForestgreen'">check</mat-icon>
+                            <mat-icon *ngIf="product.buy===true" [ngClass]="'colorRed'">close</mat-icon>
+                         </strong>
+                    </div>
+                    <div class="col-md-1">
+                        {{product.direction}}
+                    </div>
+                    <div class="col-md-1">
+                        {{product.aisle}}
+                    </div>
+                    <div class="col-md-1">
+                        {{product.row}}
+                    </div>
+                    <div class="col-md-1">
+                            <button mat-icon-button color="primary" (click)="productOkResponse(product)">
+                                    <mat-icon matTooltip="Yes"  matTooltipClass="tooltip-spark-color">thumb_up_alt</mat-icon>
+                             </button>
+                             
+                             <button  mat-icon-button color="primary" (click)="openUserFeedbackDialog(product)">
+                                    <mat-icon matTooltip="No"  matTooltipClass="tooltip-spark-color">thumb_down_alt</mat-icon>
+                             </button>
                     </div>
                   </div>
              </mat-list-item>
-            <mat-icon *ngIf="(i+1) == productTraits.length" [ngClass]="'paddingLeft15'" matTooltip="Next"  matTooltipClass="tooltip-spark-color">arrow_downward</mat-icon>
-            <mat-icon *ngIf="(i+1) < productTraits.length" [ngClass]="'paddingLeft15'" matTooltip="Next"  matTooltipClass="tooltip-spark-color">arrow_drop_down</mat-icon>
+            <mat-icon *ngIf="(i+1) == optimizedRouteProducts.length" [ngClass]="'paddingLeft15'" matTooltip="Next"  matTooltipClass="tooltip-spark-color">arrow_downward</mat-icon>
+            <mat-icon *ngIf="(i+1) < optimizedRouteProducts.length" [ngClass]="'paddingLeft15'" matTooltip="Next"  matTooltipClass="tooltip-spark-color">arrow_drop_down</mat-icon>
       </mat-list>
       <div class="row paddingLeft30">
           <mat-icon matTooltip="Origin"  matTooltipClass="tooltip-spark-color">directions_walk</mat-icon>

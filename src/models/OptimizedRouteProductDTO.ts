@@ -9,6 +9,6 @@ export class OptimizedRouteProductDTO {
     direction: string;
     aisle: string;
     row: number;
-    buy: boolean;
+    buy?: boolean;
     reasonNotToBuy: ReasonNotToBuy;
 }

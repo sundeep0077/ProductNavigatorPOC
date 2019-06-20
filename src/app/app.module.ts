@@ -11,11 +11,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule, MatCardModule, MatButtonModule, MatTooltipModule, MatDividerModule,
   MatRippleModule, MatListModule, MatAutocompleteModule, MatInputModule, MatSnackBarModule, MatTableModule,
-   MatCheckboxModule } from '@angular/material';
+   MatCheckboxModule, MatSelectModule } from '@angular/material';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { HttpClientModule } from '@angular/common/http';
 import { CustomSnackbarComponent } from './custom-snackbar/custom-snackbar.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import { CustomUserDialogComponent } from './custom-user-dialog/custom-user-dialog.component';
+import { MatDialogModule } from '@angular/material';
 
 @NgModule({
   imports: [
@@ -39,16 +42,21 @@ import { CustomSnackbarComponent } from './custom-snackbar/custom-snackbar.compo
     MatSnackBarModule,
     MatTableModule,
     MatCheckboxModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSelectModule,
+    DragDropModule,
+    MatDialogModule
   ],
   entryComponents: [
-    CustomSnackbarComponent
+    CustomSnackbarComponent,
+    CustomUserDialogComponent
   ],
   declarations: [
     AppComponent,
     CustomSnackbarComponent,
     ArrangeItemsComponent,
-    NavComponent
+    NavComponent,
+    CustomUserDialogComponent,
   ],
   providers: [{
     provide: STEPPER_GLOBAL_OPTIONS,

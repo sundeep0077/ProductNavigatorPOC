@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Let us know the problem <mat-icon>record_voice_over</mat-icon></h1>
+
+<div mat-dialog-content>
+    <mat-form-field>
+        <mat-select placeholder="Please choose" [formControl]="userResponseFormControl" multiple>
+          <mat-select-trigger>
+            {{userResponseFormControl.value ? userResponseFormControl.value[0] : ''}}
+            <span *ngIf="userResponseFormControl.value?.length > 1" class="reasons-additional-selection">
+              (+{{userResponseFormControl.value.length - 1}} {{userResponseFormControl.value?.length === 2 ? 'other' : 'others'}})
+            </span>
+          </mat-select-trigger>
+          <mat-option *ngFor="let reason of reasons" [value]="reason">{{reason}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button color="primary" cdkFocusInitial (click)="onOkClick()">Ok</button>
+</div>
